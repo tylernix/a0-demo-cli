@@ -5,8 +5,7 @@ I wanted a tool to automate some of the repetitive tasks I was talking about whi
 
 ## Demo
 
-Insert gif or link to demo
-
+![a0-demo-user-import](https://user-images.githubusercontent.com/67964959/152444909-aa299d50-402d-443d-b854-011afeb78bd8.gif)
 
 ## Environment Variables
 
