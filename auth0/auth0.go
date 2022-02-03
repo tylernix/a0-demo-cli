@@ -12,7 +12,7 @@ type API struct {
 	//Anomaly        AnomalyAPI
 	Branding BrandingAPI
 	//Client         ClientAPI
-	//Connection     ConnectionAPI
+	Connection ConnectionAPI
 	//CustomDomain   CustomDomainAPI
 	//EmailTemplate  EmailTemplateAPI
 	//Log            LogAPI
@@ -24,6 +24,7 @@ type API struct {
 	//Rule           RuleAPI
 	//Tenant         TenantAPI
 	//User           UserAPI
+	Jobs JobsAPI
 }
 
 func NewAPI(m *management.Management) *API {
@@ -32,7 +33,7 @@ func NewAPI(m *management.Management) *API {
 		//Anomaly:        m.Anomaly,
 		Branding: m.Branding,
 		//Client:         m.Client,
-		//Connection:     m.Connection,
+		Connection: m.Connection,
 		//CustomDomain:   m.CustomDomain,
 		//EmailTemplate:  m.EmailTemplate,
 		//Log:            m.Log,
@@ -44,6 +45,7 @@ func NewAPI(m *management.Management) *API {
 		// Rule:           m.Rule,
 		// Tenant:         m.Tenant,
 		// User:           m.User,
+		Jobs: m.Job,
 	}
 }
 

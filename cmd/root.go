@@ -5,9 +5,11 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/tylernix/a0-demo-cli/auth0"
 	"github.com/tylernix/a0-demo-cli/display"
+	"github.com/tylernix/a0-demo-cli/iostream"
 	"gopkg.in/auth0.v5/management"
 )
 
@@ -145,7 +147,7 @@ func addSubcommands(rootCmd *cobra.Command, cli *cli) {
 	rootCmd.AddCommand(configCmd(cli))
 	// rootCmd.AddCommand(tenantsCmd(cli))
 	// rootCmd.AddCommand(appsCmd(cli))
-	// rootCmd.AddCommand(usersCmd(cli))
+	rootCmd.AddCommand(usersCmd(cli))
 	// rootCmd.AddCommand(rulesCmd(cli))
 	// rootCmd.AddCommand(actionsCmd(cli))
 	// rootCmd.AddCommand(apisCmd(cli))
@@ -216,4 +218,31 @@ func (c *cli) setup() error {
 	c.api = auth0.NewAPI(m)
 
 	return nil
+}
+
+func canPrompt(cmd *cobra.Command) bool {
+	noInput, err := cmd.Root().Flags().GetBool("no-input")
+
+	if err != nil {
+		//This was causing certain flags to not be prompted when not inputed in command
+		//return false
+	}
+
+	return iostream.IsInputTerminal() && iostream.IsOutputTerminal() && !noInput
+}
+
+func shouldPrompt(cmd *cobra.Command, flag *Flag) bool {
+	return canPrompt(cmd) && !flag.IsSet(cmd)
+}
+
+func shouldPromptWhenFlagless(cmd *cobra.Command, flag string) bool {
+	isSet := false
+
+	cmd.LocalFlags().VisitAll(func(f *pflag.Flag) {
+		if f.Changed {
+			isSet = true
+		}
+	})
+
+	return canPrompt(cmd) && !isSet
 }
